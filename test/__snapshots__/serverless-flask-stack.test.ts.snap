@@ -1,0 +1,905 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnapshotTest 1`] = `
+Object {
+  "Outputs": Object {
+    "CDNDomain": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "CDN2330F4C0",
+          "DomainName",
+        ],
+      },
+    },
+    "FlaskLambdaRestApiEndpoint2BF2C749": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "FlaskLambdaRestApi4883B802",
+            },
+            ".execute-api.",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            Object {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            Object {
+              "Ref": "FlaskLambdaRestApiDeploymentStageprodAA802E6B",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827ArtifactHash1355580A": Object {
+      "Description": "Artifact hash for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+      "Type": "String",
+    },
+    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A": Object {
+      "Description": "S3 bucket for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+      "Type": "String",
+    },
+    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3": Object {
+      "Description": "S3 key for asset version \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
+      "Type": "String",
+    },
+    "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abArtifactHash2241D6B0": Object {
+      "Description": "Artifact hash for asset \\"dafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6ab\\"",
+      "Type": "String",
+    },
+    "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3BucketCF603CC6": Object {
+      "Description": "S3 bucket for asset \\"dafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6ab\\"",
+      "Type": "String",
+    },
+    "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3VersionKeyA0D3B8C4": Object {
+      "Description": "S3 key for asset version \\"dafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6ab\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "CDN2330F4C0": Object {
+      "Properties": Object {
+        "DistributionConfig": Object {
+          "DefaultCacheBehavior": Object {
+            "AllowedMethods": Array [
+              "GET",
+              "HEAD",
+              "OPTIONS",
+              "PUT",
+              "PATCH",
+              "POST",
+              "DELETE",
+            ],
+            "CachePolicyId": Object {
+              "Ref": "DefaultCachePolicyDDFA5BDC",
+            },
+            "CachedMethods": Array [
+              "GET",
+              "HEAD",
+              "OPTIONS",
+            ],
+            "Compress": true,
+            "FunctionAssociations": Array [
+              Object {
+                "EventType": "viewer-request",
+                "FunctionARN": Object {
+                  "Fn::GetAtt": Array [
+                    "RewriteCdnHost7906DE10",
+                    "FunctionARN",
+                  ],
+                },
+              },
+            ],
+            "SmoothStreaming": false,
+            "TargetOriginId": "MyTestStackCDNOrigin1581165C2",
+            "ViewerProtocolPolicy": "redirect-to-https",
+          },
+          "Enabled": true,
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "Origins": Array [
+            Object {
+              "ConnectionAttempts": 3,
+              "ConnectionTimeout": 10,
+              "CustomOriginConfig": Object {
+                "HTTPSPort": 443,
+                "OriginProtocolPolicy": "https-only",
+                "OriginSSLProtocols": Array [
+                  "TLSv1.2",
+                ],
+              },
+              "DomainName": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Ref": "FlaskLambdaRestApi4883B802",
+                    },
+                    ".execute-api.",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ".amazonaws.com",
+                  ],
+                ],
+              },
+              "Id": "MyTestStackCDNOrigin1581165C2",
+              "OriginPath": "/prod",
+            },
+          ],
+          "PriceClass": "PriceClass_200",
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "DefaultCachePolicyDDFA5BDC": Object {
+      "Properties": Object {
+        "CachePolicyConfig": Object {
+          "DefaultTTL": 300,
+          "MaxTTL": 3600,
+          "MinTTL": 0,
+          "Name": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "MyTestStackDefaultCachePolicy7EA63819-",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+              ],
+            ],
+          },
+          "ParametersInCacheKeyAndForwardedToOrigin": Object {
+            "CookiesConfig": Object {
+              "CookieBehavior": "whitelist",
+              "Cookies": Array [
+                "session",
+              ],
+            },
+            "EnableAcceptEncodingBrotli": true,
+            "EnableAcceptEncodingGzip": true,
+            "HeadersConfig": Object {
+              "HeaderBehavior": "whitelist",
+              "Headers": Array [
+                "x-forwarded-host",
+              ],
+            },
+            "QueryStringsConfig": Object {
+              "QueryStringBehavior": "all",
+            },
+          },
+        },
+      },
+      "Type": "AWS::CloudFront::CachePolicy",
+    },
+    "FlaskLambdaRestApi4883B802": Object {
+      "Properties": Object {
+        "BinaryMediaTypes": Array [
+          "*/*",
+        ],
+        "Name": "serverless-flask-api-prod",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "FlaskLambdaRestApiANYApiPermissionMyTestStackFlaskLambdaRestApi58E05B2CANYA0684099": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "ServerlessFlaskLambda90920255",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "FlaskLambdaRestApi4883B802",
+              },
+              "/",
+              Object {
+                "Ref": "FlaskLambdaRestApiDeploymentStageprodAA802E6B",
+              },
+              "/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "FlaskLambdaRestApiANYApiPermissionTestMyTestStackFlaskLambdaRestApi58E05B2CANY448E67D4": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "ServerlessFlaskLambda90920255",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "FlaskLambdaRestApi4883B802",
+              },
+              "/test-invoke-stage/*/",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "FlaskLambdaRestApiANYC4308976": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "ServerlessFlaskLambda90920255",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Fn::GetAtt": Array [
+            "FlaskLambdaRestApi4883B802",
+            "RootResourceId",
+          ],
+        },
+        "RestApiId": Object {
+          "Ref": "FlaskLambdaRestApi4883B802",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "FlaskLambdaRestApiAccount566D8BF7": Object {
+      "DependsOn": Array [
+        "FlaskLambdaRestApi4883B802",
+      ],
+      "Properties": Object {
+        "CloudWatchRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "FlaskLambdaRestApiCloudWatchRole259FF17C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+    },
+    "FlaskLambdaRestApiCloudWatchRole259FF17C": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FlaskLambdaRestApiDeployment354FB1C3336497a99a910cbb43294351d7f04d34": Object {
+      "DependsOn": Array [
+        "FlaskLambdaRestApiproxyANY9442EDC4",
+        "FlaskLambdaRestApiproxyF0AA8E0C",
+        "FlaskLambdaRestApiANYC4308976",
+      ],
+      "Properties": Object {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": Object {
+          "Ref": "FlaskLambdaRestApi4883B802",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "FlaskLambdaRestApiDeploymentStageprodAA802E6B": Object {
+      "Properties": Object {
+        "DeploymentId": Object {
+          "Ref": "FlaskLambdaRestApiDeployment354FB1C3336497a99a910cbb43294351d7f04d34",
+        },
+        "MethodSettings": Array [
+          Object {
+            "HttpMethod": "*",
+            "ResourcePath": "/*",
+            "ThrottlingBurstLimit": 1000,
+            "ThrottlingRateLimit": 100,
+          },
+        ],
+        "RestApiId": Object {
+          "Ref": "FlaskLambdaRestApi4883B802",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "FlaskLambdaRestApiproxyANY9442EDC4": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "ANY",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "ServerlessFlaskLambda90920255",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "FlaskLambdaRestApiproxyF0AA8E0C",
+        },
+        "RestApiId": Object {
+          "Ref": "FlaskLambdaRestApi4883B802",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "FlaskLambdaRestApiproxyANYApiPermissionMyTestStackFlaskLambdaRestApi58E05B2CANYproxy7E790FF1": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "ServerlessFlaskLambda90920255",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "FlaskLambdaRestApi4883B802",
+              },
+              "/",
+              Object {
+                "Ref": "FlaskLambdaRestApiDeploymentStageprodAA802E6B",
+              },
+              "/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "FlaskLambdaRestApiproxyANYApiPermissionTestMyTestStackFlaskLambdaRestApi58E05B2CANYproxy3ECD2019": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "ServerlessFlaskLambda90920255",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "FlaskLambdaRestApi4883B802",
+              },
+              "/test-invoke-stage/*/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "FlaskLambdaRestApiproxyF0AA8E0C": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "FlaskLambdaRestApi4883B802",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": Object {
+          "Ref": "FlaskLambdaRestApi4883B802",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "LambdaRole3A44B857": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Policies": Array [
+          Object {
+            "PolicyDocument": Object {
+              "Statement": Array [
+                Object {
+                  "Action": Array [
+                    "ec2:DescribeTags",
+                    "cloudwatch:GetMetricStatistics",
+                    "cloudwatch:ListMetrics",
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                    "logs:DescribeLogStreams",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                  "Sid": "0",
+                },
+                Object {
+                  "Action": "lambda:InvokeFunction",
+                  "Effect": "Allow",
+                  "Resource": "*",
+                  "Sid": "1",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "lambda-executor",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LambdaRoleDefaultPolicy75625A82": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "S3StorageA4C3DCD4",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "S3StorageA4C3DCD4",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+        "Roles": Array [
+          Object {
+            "Ref": "LambdaRole3A44B857",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
+      "DependsOn": Array [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": Array [
+          Object {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "RewriteCdnHost7906DE10": Object {
+      "Properties": Object {
+        "AutoPublish": true,
+        "FunctionCode": "
+              function handler(event) {
+                var req = event.request;
+                if (req.headers['host']) {
+                  req.headers['x-forwarded-host'] = {
+                    value: req.headers['host'].value
+                  };
+                }
+                return req;
+              }
+              ",
+        "FunctionConfig": Object {
+          "Comment": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                "MyTestStackRewriteCdnHost3C5AE810",
+              ],
+            ],
+          },
+          "Runtime": "cloudfront-js-1.0",
+        },
+        "Name": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::Region",
+              },
+              "MyTestStackRewriteCdnHost3C5AE810",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::CloudFront::Function",
+    },
+    "S3StorageA4C3DCD4": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "BucketEncryption": Object {
+          "ServerSideEncryptionConfiguration": Array [
+            Object {
+              "ServerSideEncryptionByDefault": Object {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "BucketName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              "-s3storage-prod",
+            ],
+          ],
+        },
+        "PublicAccessBlockConfiguration": Object {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "ServerlessFlaskLambda90920255": Object {
+      "DependsOn": Array [
+        "LambdaRoleDefaultPolicy75625A82",
+        "LambdaRole3A44B857",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3BucketCF603CC6",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3VersionKeyA0D3B8C4",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3VersionKeyA0D3B8C4",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "JSON_CONFIG_OVERRIDE": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "{\\"SESSION_COOKIE_SECURE\\":true,\\"DEBUG\\":false,\\"TEMPLATES_AUTO_RELOAD\\":false,\\"SEND_FILE_MAX_AGE_DEFAULT\\":300,\\"PERMANENT_SESSION_LIFETIME\\":86400,\\"S3_BUCKET\\":\\"",
+                  Object {
+                    "Ref": "S3StorageA4C3DCD4",
+                  },
+                  "\\"}",
+                ],
+              ],
+            },
+          },
+        },
+        "FunctionName": "serverless-flask-lambda-prod",
+        "Handler": "serverless_flask.lambda.lambda_handler",
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "LambdaRole3A44B857",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.9",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ServerlessFlaskLambdaLogRetention92047C19": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "ServerlessFlaskLambda90920255",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 180,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+  },
+}
+`;

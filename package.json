@@ -1,0 +1,37 @@
+{
+  "name": "serverless-flask-on-aws",
+  "version": "0.1.0",
+  "bin": {
+    "serverless-flask-on-aws": "bin/serverless-flask-on-aws.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "^1.125.0",
+    "@aws-cdk/aws-apigateway": "^1.127.0",
+    "@aws-cdk/aws-events": "^1.127.0",
+    "@aws-cdk/aws-events-targets": "^1.127.0",
+    "@aws-cdk/aws-iam": "^1.127.0",
+    "@aws-cdk/aws-lambda": "^1.127.0",
+    "@aws-cdk/aws-logs": "^1.127.0",
+    "@aws-cdk/aws-s3": "^1.127.0",
+    "@aws-cdk/aws-s3-deployment": "^1.127.0",
+    "@aws-cdk/core": "^1.125.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "^10.17.27",
+    "aws-cdk": "^1.125.0",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-cloudfront": "^1.127.0",
+    "@aws-cdk/aws-cloudfront-origins": "^1.127.0",
+    "source-map-support": "^0.5.16"
+  }
+}
