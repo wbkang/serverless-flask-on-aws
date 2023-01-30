@@ -14,6 +14,7 @@ clean:
 	rm -f .deploy-dev-once
 	rm -rf node_modules
 	rm -f sam-params.json
+	rm -f test/*.js
 	rm -f .pipenv && pipenv --rm || true
 	echo "Clean is finished"
 
@@ -54,10 +55,13 @@ bundle-python: build-python
 pytest:
 	pipenv run pytest -x
 
-npmtest:
+npmtest: build-ts bundle-python
 	npm run test
 
 test: pytest npmtest
+
+build-ts:
+	npm run build
 
 node_modules:
 	npm install
@@ -87,7 +91,7 @@ sam-local: .deploy-dev-once bundle-python synth-dev sam-params.json
 	-n sam-params.json
 	rm -f sam-params.json
 
-.PHONY = clean run-flask bundle-python test pytest npmtest \
+.PHONY = clean run-flask bundle-python build-ts test pytest npmtest \
 	sam-local deploy-dev deploy-staging deploy-prod release  \
 	update-deps synth-dev npm-install lint
 	

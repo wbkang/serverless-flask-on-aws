@@ -5,9 +5,17 @@ Object {
   "Outputs": Object {
     "CDNDomain": Object {
       "Value": Object {
-        "Fn::GetAtt": Array [
-          "CDN2330F4C0",
-          "DomainName",
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Fn::GetAtt": Array [
+                "CDN2330F4C0",
+                "DomainName",
+              ],
+            },
+          ],
         ],
       },
     },
@@ -39,29 +47,10 @@ Object {
     },
   },
   "Parameters": Object {
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827ArtifactHash1355580A": Object {
-      "Description": "Artifact hash for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
-      "Type": "String",
-    },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A": Object {
-      "Description": "S3 bucket for asset \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
-      "Type": "String",
-    },
-    "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3": Object {
-      "Description": "S3 key for asset version \\"b120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827\\"",
-      "Type": "String",
-    },
-    "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abArtifactHash2241D6B0": Object {
-      "Description": "Artifact hash for asset \\"dafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6ab\\"",
-      "Type": "String",
-    },
-    "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3BucketCF603CC6": Object {
-      "Description": "S3 bucket for asset \\"dafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6ab\\"",
-      "Type": "String",
-    },
-    "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3VersionKeyA0D3B8C4": Object {
-      "Description": "S3 key for asset version \\"dafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6ab\\"",
-      "Type": "String",
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
   "Resources": Object {
@@ -146,17 +135,7 @@ Object {
           "DefaultTTL": 300,
           "MaxTTL": 3600,
           "MinTTL": 0,
-          "Name": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "MyTestStackDefaultCachePolicy7EA63819-",
-                Object {
-                  "Ref": "AWS::Region",
-                },
-              ],
-            ],
-          },
+          "Name": "CachePolicy-prod",
           "ParametersInCacheKeyAndForwardedToOrigin": Object {
             "CookiesConfig": Object {
               "CookieBehavior": "whitelist",
@@ -311,6 +290,7 @@ Object {
       "Type": "AWS::ApiGateway::Method",
     },
     "FlaskLambdaRestApiAccount566D8BF7": Object {
+      "DeletionPolicy": "Retain",
       "DependsOn": Array [
         "FlaskLambdaRestApi4883B802",
       ],
@@ -323,8 +303,10 @@ Object {
         },
       },
       "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
     },
     "FlaskLambdaRestApiCloudWatchRole259FF17C": Object {
+      "DeletionPolicy": "Retain",
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -354,6 +336,7 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
     },
     "FlaskLambdaRestApiDeployment354FB1C3336497a99a910cbb43294351d7f04d34": Object {
       "DependsOn": Array [
@@ -370,12 +353,16 @@ Object {
       "Type": "AWS::ApiGateway::Deployment",
     },
     "FlaskLambdaRestApiDeploymentStageprodAA802E6B": Object {
+      "DependsOn": Array [
+        "FlaskLambdaRestApiAccount566D8BF7",
+      ],
       "Properties": Object {
         "DeploymentId": Object {
           "Ref": "FlaskLambdaRestApiDeployment354FB1C3336497a99a910cbb43294351d7f04d34",
         },
         "MethodSettings": Array [
           Object {
+            "DataTraceEnabled": false,
             "HttpMethod": "*",
             "ResourcePath": "/*",
             "ThrottlingBurstLimit": 1000,
@@ -579,7 +566,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -626,41 +617,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3Bucket2070BA0A",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersb120b13d9d868c7622e7db1b68bae4c0f82ffd0227b8c15f2cef38e186ff3827S3VersionKeyB95D17C3",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "e45ee2082d227db1b6f0292696ce5ce2b061c105d15efb341925ca040d1feb68.zip",
         },
         "Handler": "index.handler",
         "Role": Object {
@@ -748,9 +707,9 @@ Object {
               "",
               Array [
                 Object {
-                  "Ref": "AWS::Region",
+                  "Ref": "AWS::AccountId",
                 },
-                "MyTestStackRewriteCdnHost3C5AE810",
+                "MyTestStackFixCdnHostFunctionprod",
               ],
             ],
           },
@@ -761,9 +720,9 @@ Object {
             "",
             Array [
               Object {
-                "Ref": "AWS::Region",
+                "Ref": "AWS::AccountId",
               },
-              "MyTestStackRewriteCdnHost3C5AE810",
+              "MyTestStackFixCdnHostFunctionprod",
             ],
           ],
         },
@@ -780,17 +739,6 @@ Object {
                 "SSEAlgorithm": "AES256",
               },
             },
-          ],
-        },
-        "BucketName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::AccountId",
-              },
-              "-s3storage-prod",
-            ],
           ],
         },
         "PublicAccessBlockConfiguration": Object {
@@ -811,41 +759,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3BucketCF603CC6",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3VersionKeyA0D3B8C4",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersdafa06339804eff257d2b4702c75c36e99ba0b7496b4c2d72717c9909254d6abS3VersionKeyA0D3B8C4",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "b11c7ddab3867a120ae0e0d0626d8c3750e00f8bc19bf975741a10b74baab662.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -853,7 +769,7 @@ Object {
               "Fn::Join": Array [
                 "",
                 Array [
-                  "{\\"SESSION_COOKIE_SECURE\\":true,\\"DEBUG\\":false,\\"TEMPLATES_AUTO_RELOAD\\":false,\\"SEND_FILE_MAX_AGE_DEFAULT\\":300,\\"PERMANENT_SESSION_LIFETIME\\":86400,\\"S3_BUCKET\\":\\"",
+                  "{\\"SESSION_COOKIE_SECURE\\":true,\\"DEBUG\\":false,\\"TEMPLATES_AUTO_RELOAD\\":false,\\"SEND_FILE_MAX_AGE_DEFAULT\\":300,\\"PERMANENT_SESSION_LIFETIME\\":86400,\\"ROOT_LOG_LEVEL\\":\\"INFO\\",\\"S3_BUCKET\\":\\"",
                   Object {
                     "Ref": "S3StorageA4C3DCD4",
                   },
@@ -899,6 +815,33 @@ Object {
         },
       },
       "Type": "Custom::LogRetention",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
     },
   },
 }

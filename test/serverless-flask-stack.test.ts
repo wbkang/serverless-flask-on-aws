@@ -1,5 +1,5 @@
-import { expect as expectCDK, matchTemplate, MatchStyle, SynthUtils } from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import { Template } from 'aws-cdk-lib/assertions';
+import * as cdk from 'aws-cdk-lib';
 import * as ServerlessFlask from '../lib/serverless-flask-stack';
 
 // super basic snapshot testing
@@ -11,5 +11,6 @@ test('SnapshotTest', () => {
     // WHEN
     const stack = new ServerlessFlask.ServerlessFlaskStack(app, 'MyTestStack');
     // THEN
-    expect(SynthUtils.toCloudFormation(stack)).toMatchSnapshot();
+    const template = Template.fromStack(stack);
+    expect(template.toJSON()).toMatchSnapshot();
 });

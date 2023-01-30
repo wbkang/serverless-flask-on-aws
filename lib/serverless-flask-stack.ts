@@ -1,16 +1,17 @@
-import * as cdk from '@aws-cdk/core';
-import { CfnOutput, Duration, RemovalPolicy } from '@aws-cdk/core';
-import * as agw from '@aws-cdk/aws-apigateway';
-import * as iam from '@aws-cdk/aws-iam';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as eventTargets from "@aws-cdk/aws-events-targets";
-import * as s3 from '@aws-cdk/aws-s3';
-import * as events from "@aws-cdk/aws-events";
-import { RuleTargetInput } from '@aws-cdk/aws-events';
-import * as cloudfront from '@aws-cdk/aws-cloudfront';
-import * as origins from '@aws-cdk/aws-cloudfront-origins';
-import * as logs from '@aws-cdk/aws-logs';
-import { BlockPublicAccess, BucketEncryption } from '@aws-cdk/aws-s3';
+import * as cdk from 'aws-cdk-lib';
+import { CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import * as agw from 'aws-cdk-lib/aws-apigateway';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as eventTargets from "aws-cdk-lib/aws-events-targets";
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as events from "aws-cdk-lib/aws-events";
+import { RuleTargetInput } from 'aws-cdk-lib/aws-events';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import { BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
+import { Construct } from 'constructs';
 
 const LAMBDA_CONFIG_ENV : {[key:string]: {[key:string]:any}} = {
   "dev": {
@@ -44,8 +45,8 @@ const MAX_RPS = 100;
 const MAX_RPS_BUCKET_SIZE = 1000;
 
 export class ServerlessFlaskStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, {...props, analyticsReporting: false});
 
     const stageName = this.node.tryGetContext("stage") as string;
 
@@ -53,7 +54,6 @@ export class ServerlessFlaskStack extends cdk.Stack {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy:RemovalPolicy.RETAIN,
       encryption: BucketEncryption.S3_MANAGED,
-      bucketName: `${this.account}-serverlessflask-s3storage-${stageName}`
     });
 
 
@@ -120,7 +120,7 @@ export class ServerlessFlaskStack extends cdk.Stack {
           functionAssociations: [{
             eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
             function: new cloudfront.Function(this, "RewriteCdnHost", {
-              functionName: `${this.account}${this.stackName}RewriteCdnHostFunction${stageName}`,
+              functionName: `${this.account}${this.stackName}FixCdnHostFunction${stageName}`,
               // documentation: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/functions-event-structure.html#functions-event-structure-example
               code: cloudfront.FunctionCode.fromInline(`
               function handler(event) {

@@ -36,7 +36,7 @@ Make sure to add the user package installation location to your PATH. Example:
 
 ### NodeJS
 
-We need to [install NodeJS](https://nodejs.org/en/download/) so we can use [CDK](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+We need to [install NodeJS](https://nodejs.org/en/download/) so we can use [CDK v2](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
 ### CDK
 
